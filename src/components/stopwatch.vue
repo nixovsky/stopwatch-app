@@ -1,5 +1,5 @@
 <template>
-    <div class="stopwatches">
+    <div class="stopwatches" :class="{inactive: !isPlay}">
         <div class="stopwatch">
             <span class="stopwatch__time">{{time}}</span>
         </div>
@@ -50,7 +50,7 @@ export default {
         startTimer(){
             this.isPlay = !this.isPlay;
 
-            this.t = setInterval(this.oneTick, 100)
+            this.t = setInterval(this.oneTick, 10) // debug
         },
         pauseTimer(){
             this.isPlay = !this.isPlay;
@@ -121,6 +121,7 @@ export default {
         border-bottom: 10px solid transparent;
         left: 0;
         top: 0;
+        z-index: 1001;
     }
     .pause::after{
         content: '';
@@ -130,6 +131,7 @@ export default {
         top: 0;
         right: 0;
         background: white;
+        z-index: 1001;
     }
     .pause::before{
         content: '';
@@ -139,6 +141,7 @@ export default {
         top: 0;
         left: 0;
         background: white;
+        z-index: 1001;
     }
     .stop::before{
         content: '';
@@ -148,6 +151,7 @@ export default {
         top: 0;
         left: 0;
         background: white;
+        z-index: 1001;
     }
     .inactive::before{
         content: '';
@@ -158,5 +162,9 @@ export default {
         left: 0;
         z-index: 100;
         background: rgba(0, 0, 0, 0.2);
+    }
+    .inactive .stop::before,
+    .inactive .play::before{
+        opacity: 0.5;
     }
 </style>
