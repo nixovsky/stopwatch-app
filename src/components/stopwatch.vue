@@ -21,21 +21,24 @@
 export default {
     data() {
         return{
-            time: "00:00:00",
+            time: "0",
             isPlay: false,
             sec: 0,
             min: 0,
             hour: 0,
+            isSec: false,
+            isMin: false
         }   
     },
     methods:{
         oneTick(){
-            // time validator
             this.sec += 1;
             if (this.sec >= 60){
+                this.isSec = true;
                 this.sec = 0;
                 this.min += 1;
                 if (this.min >= 60){
+                    this.isMin = true;
                     this.min = 0;
                     this.hour += 1;
                 }
@@ -43,14 +46,26 @@ export default {
             this.setTime();
         },
         setTime() {
-            this.time = (this.hour > 9 ? this.hour : "0" + this.hour) + ":" +
-                        (this.min > 9 ? this.min : "0" + this.min) + ":" +
-                        (this.sec > 9 ? this.sec : "0" + this.sec);
+            // Валидирует строку вывода таймера
+            // если 60 секунд прошли, в вывод добавляются минуты
+            // если прошли 60 минут, в вывод добавляются часы
+            if(this.isSec && !this.isMin){
+                this.time = (this.min > 9 ? this.min : "0" + this.min) + ":" +
+                            (this.sec > 9 ? this.sec : "0" + this.sec);
+            }
+            else if(this.isSec && this.isMin){
+                this.time = (this.hour > 9 ? this.hour : "0" + this.hour) + ":" +
+                            (this.min > 9 ? this.min : "0" + this.min) + ":" +
+                            (this.sec > 9 ? this.sec : "0" + this.sec);
+            }
+            else{
+                this.time = this.sec > 9 ? this.sec : "0" + this.sec;
+            }
         },
         startTimer(){
             this.isPlay = !this.isPlay;
 
-            this.t = setInterval(this.oneTick, 10) // debug
+            this.t = setInterval(this.oneTick, 1000) // для дебага задержка = 1
         },
         pauseTimer(){
             this.isPlay = !this.isPlay;
@@ -63,7 +78,7 @@ export default {
             this.hour = 0;
             this.min = 0;
             this.sec = 0;
-            this.setTime();
+            this.time = "0"
         }
     }
 }
