@@ -1,7 +1,7 @@
 <template>
     <div class="stopwatches" :class="{inactive: !isPlay}">
         <div class="stopwatch">
-            <span class="stopwatch__time">{{time}}</span>
+            <span class="s stopwatch__time">{{time}}</span>
         </div>
         <div class="stopwatch__control">
             <button v-if="isPlay" 
